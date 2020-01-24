@@ -1,47 +1,46 @@
-function findEmployeeByName (name,list){
-    for(let i=0;i<list.length;i++){
+function findEmployeeByName(name, list) {
+    for (let i = 0; i < list.length; i++) {
         let emp = list[i]
-        if(emp.name === name){
+        if (emp.name === name) {
             return emp
         }
     }
 }
 
 
-
-function findManagerFor(employee, list){
+function findManagerFor(employee, list) {
     let manager = employee.managerId
     console.log(manager)
-    for (let i=0;i<list.length;i++){
+    for (let i = 0; i < list.length; i++) {
         let curr = list[i]
-        if(curr.id === manager){
+        if (curr.id === manager) {
             return curr
         }
     }
 }
 
-function findCoworkersFor (employee, list){
+function findCoworkersFor(employee, list) {
     let manager = employee.managerId
     let coworkers = []
-    for (let i=0;i<list.length;i++){
+    for (let i = 0; i < list.length; i++) {
         let curr = list[i]
-        if(curr.id === employee.id){
+        if (curr.id === employee.id) {
             continue
         }
-        if(curr.managerId === manager){
+        if (curr.managerId === manager) {
             coworkers.push(curr)
         }
     }
     return coworkers
 }
 
-function findManagementChainForEmployee (employee, list){
+function findManagementChainForEmployee(employee, list) {
     let manager = employee.managerId
     let managerList = []
-    while (manager){
-        for (let i =0;i<list.length;i++){
+    while (manager) {
+        for (let i = 0; i < list.length; i++) {
             let curr = list[i]
-            if(curr.id === manager){
+            if (curr.id === manager) {
                 manager = curr.managerId
                 managerList.unshift(curr)
             }
@@ -50,32 +49,32 @@ function findManagementChainForEmployee (employee, list){
     return managerList
 }
 
-function getReport(emp,list){
+function getReport(emp, list) {
     let id = emp.id
     emp.reports = []
-    
-    for(let i=0;i<list.length;i++){
+
+    for (let i = 0; i < list.length; i++) {
         let curr = list[i]
-        if(curr.managerId === id){
+        if (curr.managerId === id) {
             emp.reports.push(curr)
-            curr.reports = getReport(curr,list)
+            curr.reports = getReport(curr, list)
 
         }
-        
+
     }
-    return
+
 }
 
-function generateManagementTree(list){
+function generateManagementTree(list) {
     let tree = {}
-    for(let i=0;i<list.length;i++){
+    for (let i = 0; i < list.length; i++) {
         let curr = list[i]
-        if(!curr.managerId){
+        if (!curr.managerId) {
             tree = curr
-            
+
         }
     }
-    tree[0].reports = getReport(tree[0],list)
+    tree[0].reports = getReport(tree[0], list)
     return tree
 
 }
